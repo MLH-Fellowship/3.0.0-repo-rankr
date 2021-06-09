@@ -4,6 +4,7 @@ import stylex from '@ladifire-opensource/stylex';
 
 const styles = stylex.create({
   container: {
+    color: '#fff',
     minHeight: '100vh',
     paddingTop: 0,
     paddingBottom: 0,
@@ -12,7 +13,10 @@ const styles = stylex.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    background: 'url(/images/patternpad.jpeg)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
   },
   main: {
     paddingTop: '5rem',
