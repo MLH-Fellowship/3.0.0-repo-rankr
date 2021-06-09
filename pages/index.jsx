@@ -30,9 +30,12 @@ const styles = stylex.create({
   },
   title: {
     fontSize: '5rem',
-    margin: 15
+    margin: 30
   },
-  wrapper: {},
+  wrapper: {
+    display: 'flex',
+    alignItems: 'center'
+  },
 
   button: {
     color: '#fff',
@@ -46,21 +49,25 @@ const styles = stylex.create({
     borderRadius: '0.25rem',
     fontSize: '1.25rem',
     marginLeft: 15,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
   },
 
   input: {
-    width: 300,
-    paddingTop: '0.75rem',
-    paddingBottom: '0.75rem',
+    width: 350,
+    paddingTop: '0.9rem',
+    paddingBottom: '0.9rem',
     paddingLeft: '0.5rem',
-    paddingRight: '0.5rem'
+    paddingRight: '0.5rem',
+    border: 'none',
+    borderRadius: '0.25rem',
+    fontSize: '1rem',
+    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
   },
 
   footer: {
     width: '100%',
     height: 100,
-    borderTop: '1px solid #eaeaea',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
