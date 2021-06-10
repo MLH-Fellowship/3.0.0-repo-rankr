@@ -6,7 +6,7 @@ const token = process.env.GITHUB_API_TOKEN;
 
 export const AUTH_HEADER = {
   authorization: token ? `Bearer ${token}` : null
-}
+};
 
 const authLink = setContext((_, { headers }) => {
   return {
