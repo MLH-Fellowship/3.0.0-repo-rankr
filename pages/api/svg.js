@@ -7,7 +7,7 @@ export default (req, res) => {
   const format = {
     label: 'Rankr',
     message: score,
-    color: 'success'
+    color: getColor(score)
   };
 
   const svg = makeBadge(format);
@@ -15,4 +15,21 @@ export default (req, res) => {
   res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
   res.write(svg);
   res.end();
+};
+
+const getColor = score => {
+  const intScore = parseInt(score);
+  if (intScore >= 90) {
+    return 'brightgreen';
+  } else if (intScore >= 75) {
+    return 'green';
+  } else if (intScore >= 60) {
+    return 'yellow';
+  } else if (intScore >= 45) {
+    return 'yellowgreen';
+  } else if (intScore >= 30) {
+    return 'orange';
+  } else {
+    return 'red';
+  }
 };
