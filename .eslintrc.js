@@ -20,6 +20,7 @@ module.exports = {
   plugins: ['react', 'prettier', 'unused-imports'],
   rules: {
     'react/react-in-jsx-scope': 'off', // for Next.js
-    'unused-imports/no-unused-imports': 2
+    'unused-imports/no-unused-imports': 2,
+    'no-var': 1,
   }
 };
