@@ -99,7 +99,7 @@ export default function Home() {
 
       <footer className={stylex(styles.footer)}>
         <span className={stylex(styles.footerContent)}>
-          This site is built with ❤️
+          This site is built with Stylex and ❤️
         </span>
       </footer>
     </div>
