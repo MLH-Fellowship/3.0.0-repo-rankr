@@ -1,13 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import getRepository from '../../../lib/getRepository';
 import generateSvg from '../../../lib/generateSvg';
+import getRepository from '../../../lib/getRepository';
 
 export default async (req, res) => {
   const { owner, name, badge } = req.query;
+
   const data = await getRepository(owner, name);
 
-  const score = req.query.score ?? '100';
-  const svg = generateSvg(score);
+  // const model = parseRepositoryData(data);
+  // const score = rankRepository(model);
+  const svg = generateSvg(100);
 
   if (!!badge && badge === 'true') {
     res.writeHead(200, { 'Content-Type': 'image/svg+xml' });

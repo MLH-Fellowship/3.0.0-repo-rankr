@@ -28,6 +28,9 @@ export const GET_REPOSITORY = gql`
       openIssues: issues(states: OPEN) {
         totalCount
       }
+      issueTemplates {
+        name
+      }
       lastOpenedPullRequest: pullRequests(states: OPEN, last: 1) {
         nodes {
           createdAt
@@ -43,6 +46,9 @@ export const GET_REPOSITORY = gql`
       }
       closedPullRequests: pullRequests(states: CLOSED) {
         totalCount
+      }
+      pullRequestTemplates {
+        name: filename
       }
       license: licenseInfo {
         key
