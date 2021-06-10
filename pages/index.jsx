@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import stylex from '@ladifire-opensource/stylex';
+import { useState } from 'react';
 
 const styles = stylex.create({
   container: {
@@ -78,6 +79,19 @@ const styles = stylex.create({
 });
 
 export default function Home() {
+  const [input, setInput] = useState('');
+
+  const handleRepoRank = () => {
+    if (!!input.trim()) {
+      fetch(`/api/${input}`)
+        .then(async res => {
+          const { data } = await res.json();
+          console.log(data);
+        })
+        .catch(console.error.bind(this));
+    }
+  };
+
   return (
     <div className={stylex(styles.container)}>
       <Head>
@@ -90,9 +104,16 @@ export default function Home() {
         <div className={stylex(styles.wrapper)}>
           <input
             className={stylex(styles.input)}
-            placeholder="https://github.com/ladifire-opensource/stylex"
+            value={input}
+            onChange={e => setInput(e.target?.value)}
+            placeholder="ladifire-opensource/stylex"
           />
-          <button className={stylex(styles.button)}>Analyze</button>
+          <button
+            onClick={handleRepoRank.bind(this)}
+            className={stylex(styles.button)}
+          >
+            Analyze
+          </button>
         </div>
       </main>
 
