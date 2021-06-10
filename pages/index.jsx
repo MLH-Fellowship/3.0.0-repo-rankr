@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import stylex from '@ladifire-opensource/stylex';
 
 const styles = stylex.create({
