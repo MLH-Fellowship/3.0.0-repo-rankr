@@ -13,6 +13,7 @@
   "dependencies": {
     "@ladifire-opensource/stylex": "^0.1.0-beta.0",
     "@ladifire-opensource/stylex-nextjs-plugin": "^0.1.0-beta.0",
+    "badge-maker": "^3.3.1",
     "next": "9.3.5",
     "react": "17.0.2",
     "react-dom": "17.0.2"
