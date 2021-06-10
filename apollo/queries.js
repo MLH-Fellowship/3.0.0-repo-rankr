@@ -1,31 +1,53 @@
 import { gql } from '@apollo/client';
 
-// TODO: @navn-r
 export const GET_REPOSITORY = gql`
   query ($owner: String!, $name: String!) {
     repository(owner: $owner, name: $name) {
       name
       description
       updatedAt
-      forkCount
-      stargazerCount
+      forks: forkCount
+      stars: stargazerCount
       codeOfConduct {
         key
-        name
       }
-      updatedAt
-      homepageUrl
-      issues {
+      url: homepageUrl
+      lastOpenedIssue: issues(states: OPEN, last: 1) {
+        nodes {
+          createdAt
+        }
+      }
+      lastClosedIssue: issues(states: CLOSED, last: 1) {
+        nodes {
+          closedAt
+        }
+      }
+      closedIssues: issues(states: CLOSED) {
         totalCount
       }
-      pullRequests {
+      openIssues: issues(states: OPEN) {
         totalCount
       }
-      licenseInfo {
+      lastOpenedPullRequest: pullRequests(states: OPEN, last: 1) {
+        nodes {
+          createdAt
+        }
+      }
+      lastClosedPullRequest: pullRequests(states: CLOSED, last: 1) {
+        nodes {
+          closedAt
+        }
+      }
+      openPullRequests: pullRequests(states: OPEN) {
+        totalCount
+      }
+      closedPullRequests: pullRequests(states: CLOSED) {
+        totalCount
+      }
+      license: licenseInfo {
         key
-        name
       }
-      repositoryTopics {
+      topics: repositoryTopics {
         totalCount
       }
     }
