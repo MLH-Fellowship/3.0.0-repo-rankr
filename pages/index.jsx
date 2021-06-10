@@ -85,7 +85,7 @@ export default function Home() {
     if (!!input.trim()) {
       fetch(`/api/${input}`)
         .then(async res => {
-          const { data } = await res.json();
+          const data = await res.json();
           console.log(data);
         })
         .catch(console.error.bind(this));
