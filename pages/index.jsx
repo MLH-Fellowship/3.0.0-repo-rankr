@@ -30,6 +30,7 @@ const styles = stylex.create({
     alignItems: 'center'
   },
   title: {
+    color: '#fff',
     fontSize: '5rem',
     margin: 30
   },
@@ -81,15 +82,18 @@ const styles = stylex.create({
 
 export default function Home() {
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleRepoRank = async () => {
     if (!!input.trim()) {
       try {
-        let repo = input.s;
+        setLoading(true);
         const data = await axios.get(`/api/${input}`);
         console.log(data.data);
       } catch (error) {
         console.error.bind(this);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -113,6 +117,7 @@ export default function Home() {
           <button
             onClick={handleRepoRank.bind(this)}
             className={stylex(styles.button)}
+            disabled={loading}
           >
             Analyze
           </button>
