@@ -23,11 +23,11 @@ export default function BasicTable({rows = []}) {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">GOOD</TableCell>
+            <TableCell align="center">Attribute</TableCell>
             <TableCell align="center"> </TableCell>
             <TableCell align="center"> </TableCell>
             <TableCell align="center"> </TableCell>
-            <TableCell align="center">BAD</TableCell>
+            <TableCell align="center">Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

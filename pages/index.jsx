@@ -120,11 +120,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [analysisLoaded, setAnalysisLoading] = useState(false);
   const [score, setScore] = useState(20);
-  const [analysis, setAnalysis] = useState([
-    createData('License', 'Readme'),
-    createData('ITEM', 'DATA'),
-    createData('TERM', 'ICE')
-  ]);
+  const [analysis, setAnalysis] = useState([]);
 
   const handleRepoRank = async () => {
     if (!!input.trim()) {
@@ -132,7 +128,16 @@ export default function Home() {
         setLoading(true);
         const data = await axios.get(`/api/${input}`);
         console.log('data.data', data);
-        setScore(data.data);
+        const { info, score } = data.data;
+
+        const result = Object.keys(info)
+          .filter(key => {
+            return 'boolean' === typeof info[key];
+          })
+          .map(key => createData(key, info[key] ? 'PASS' : 'FAIL'));
+
+        setScore(score);
+        setAnalysis(result);
         setAnalysisLoading(true);
       } catch (error) {
         console.error.bind(this);

@@ -21,9 +21,6 @@ export default async (req, res) => {
     res.write(svg);
     res.end();
   } else {
-    if (info) {
-      req.status(200).json(evaluateModel(model));
-    }
-    res.status(200).json(score);
+    res.status(200).json({ score, info: evaluateModel(model) });
   }
 };
