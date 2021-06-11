@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Table from '../components/table';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast, ToastContainer } from 'react-toastify';
 
 const styles = stylex.create({
   container: {
@@ -122,6 +123,12 @@ export default function Home() {
   const [score, setScore] = useState(20);
   const [analysis, setAnalysis] = useState([]);
 
+  const handleCopySVGlink = () => {
+    toast.success('Badge URL Copied!', {
+      position: 'bottom-left'
+    });
+  };
+
   const handleRepoRank = async () => {
     if (!!input.trim()) {
       try {
@@ -154,6 +161,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <ToastContainer />
+
       <main className={stylex(styles.main)}>
         <h1 className={stylex(styles.title)}>Repo Rankr</h1>
         <div className={stylex(styles.wrapper)}>
@@ -172,18 +181,20 @@ export default function Home() {
           </button>
         </div>
 
-        {/* <br/> */}
         <div className={stylex(styles.analysis)}>
           {analysisLoaded ? (
             <>
               <div>
-                {`Your repo scores `} <b>{`${score}`} </b>{' '}
+                Your repo scores <strong>{`${score}`}</strong>
               </div>
               <br />
               <CopyToClipboard text={`${hostURL}api/${input}?badge=true`}>
                 <button
+                  onClick={handleCopySVGlink.bind(this)}
                   className={stylex(styles.buttonSmall)}
-                >{`Copy svg url`}</button>
+                >
+                  Copy Badge
+                </button>
               </CopyToClipboard>
               <br />
               <Table rows={analysis} />
@@ -196,7 +207,7 @@ export default function Home() {
 
       <footer className={stylex(styles.footer)}>
         <span className={stylex(styles.footerContent)}>
-          This site is built with Stylex and ❤️
+          Built with Stylex and ❤️
         </span>
       </footer>
     </div>
