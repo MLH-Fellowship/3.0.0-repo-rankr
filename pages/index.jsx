@@ -2,6 +2,8 @@ import Head from 'next/head';
 import stylex from '@ladifire-opensource/stylex';
 import { useState } from 'react';
 import axios from 'axios';
+import Table from '../components/table';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const styles = stylex.create({
   container: {
@@ -22,6 +24,16 @@ const styles = stylex.create({
   main: {
     paddingTop: '5rem',
     paddingBottom: '5rem',
+    paddingLeft: 0,
+    paddingRight: 0,
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  analysis: {
+    paddingTop: '3rem',
+    paddingBottom: '0.2rem',
     paddingLeft: 0,
     paddingRight: 0,
     flex: 1,
@@ -55,6 +67,22 @@ const styles = stylex.create({
     boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
   },
 
+  buttonSmall: {
+    color: '#fff',
+    backgroundColor: '#1D4ED8',
+    paddingTop: '0.25rem',
+    paddingBottom: '0.25rem',
+    paddingLeft: '0.35rem',
+    paddingRight: '0.35rem',
+    border: 'none',
+    fontWeight: 'bold',
+    borderRadius: '0.25rem',
+    fontSize: '0.95rem',
+    marginLeft: 15,
+    cursor: 'pointer',
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+  },
+
   input: {
     width: 350,
     paddingTop: '0.9rem',
@@ -80,16 +108,37 @@ const styles = stylex.create({
   }
 });
 
+const hostURL =
+  process.env.node_env === 'production' ? `xyz` : 'http://localhost:3000/';
+
+function createData(good, bad) {
+  return { good, bad };
+}
+
 export default function Home() {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState('facebook/jest');
   const [loading, setLoading] = useState(false);
+  const [analysisLoaded, setAnalysisLoading] = useState(false);
+  const [score, setScore] = useState(20);
+  const [analysis, setAnalysis] = useState([]);
 
   const handleRepoRank = async () => {
     if (!!input.trim()) {
       try {
         setLoading(true);
         const data = await axios.get(`/api/${input}`);
-        console.log(data.data);
+        console.log('data.data', data);
+        const { info, score } = data.data;
+
+        const result = Object.keys(info)
+          .filter(key => {
+            return 'boolean' === typeof info[key];
+          })
+          .map(key => createData(key, info[key] ? 'PASS' : 'FAIL'));
+
+        setScore(score);
+        setAnalysis(result);
+        setAnalysisLoading(true);
       } catch (error) {
         console.error.bind(this);
       } finally {
@@ -121,6 +170,27 @@ export default function Home() {
           >
             Analyze
           </button>
+        </div>
+
+        {/* <br/> */}
+        <div className={stylex(styles.analysis)}>
+          {analysisLoaded ? (
+            <>
+              <div>
+                {`Your repo scores `} <b>{`${score}`} </b>{' '}
+              </div>
+              <br />
+              <CopyToClipboard text={`${hostURL}api/${input}?badge=true`}>
+                <button
+                  className={stylex(styles.buttonSmall)}
+                >{`Copy svg url`}</button>
+              </CopyToClipboard>
+              <br />
+              <Table rows={analysis} />
+            </>
+          ) : (
+            loading && <div> Loading... </div>
+          )}
         </div>
       </main>
 
