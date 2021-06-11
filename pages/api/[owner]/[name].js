@@ -13,7 +13,7 @@ export default async (req, res) => {
 
   const model = parseRepositoryData(data);
   const score = rankRepository(model);
-  const svg = generateSvg(100);
+  const svg = generateSvg(score);
 
   if (!!badge && badge === 'true') {
     res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
