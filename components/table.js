@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,7 +15,6 @@ const useStyles = makeStyles({
   },
 });
 
-// eslint-disable-next-line react/prop-types
 export default function BasicTable({rows = []}) {
   const classes = useStyles();
 
@@ -31,17 +31,21 @@ export default function BasicTable({rows = []}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(({good, bad}, idx) => (
+          {rows.map(({attribute, status}, idx) => (
             <TableRow key={idx}>
-              <TableCell scope="row" align="center"> {good} </TableCell>
+              <TableCell scope="row" align="center"> {attribute} </TableCell>
               <TableCell align="center"> </TableCell>
               <TableCell align="center"> </TableCell>
               <TableCell align="center"> </TableCell>
-              <TableCell align="center"> {bad} </TableCell>
+              <TableCell align="center"> {status} </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
+}
+
+BasicTable.propTypes = {
+  rows: PropTypes.arrayOf(PropTypes.object)
 }

@@ -112,10 +112,6 @@ const styles = stylex.create({
 const hostURL =
   process.env.node_env === 'production' ? `xyz` : 'http://localhost:3000/';
 
-function createData(good, bad) {
-  return { good, bad };
-}
-
 export default function Home() {
   const [input, setInput] = useState('facebook/jest');
   const [loading, setLoading] = useState(false);
@@ -134,14 +130,13 @@ export default function Home() {
       try {
         setLoading(true);
         const data = await axios.get(`/api/${input}`);
-        console.log('data.data', data);
         const { info, score } = data.data;
-
         const result = Object.keys(info)
-          .filter(key => {
-            return 'boolean' === typeof info[key];
-          })
-          .map(key => createData(key, info[key] ? 'PASS' : 'FAIL'));
+          .filter(key => 'boolean' === typeof info[key])
+          .map(key => ({
+            attribute: key,
+            status: info[key] ? 'PASS' : 'FAIL'
+          }));
 
         setScore(score);
         setAnalysis(result);
