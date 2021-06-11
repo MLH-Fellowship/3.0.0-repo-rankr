@@ -22,7 +22,7 @@ export default async (req, res) => {
     res.end();
   } else {
     if (info) {
-      req.status(200).json(evaluateModel(model));
+      res.status(200).json(evaluateModel(model));
     }
     res.status(200).json(score);
   }
