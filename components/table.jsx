@@ -11,11 +11,11 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
-  },
+    minWidth: 650
+  }
 });
 
-export default function BasicTable({rows = []}) {
+export default function BasicTable({ rows = [] }) {
   const classes = useStyles();
 
   return (
@@ -23,21 +23,27 @@ export default function BasicTable({rows = []}) {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Attribute</TableCell>
-            <TableCell align="center"> </TableCell>
-            <TableCell align="center"> </TableCell>
-            <TableCell align="center"> </TableCell>
-            <TableCell align="center">Status</TableCell>
+            <TableCell align="center">
+              <strong>Attribute</strong>
+            </TableCell>
+            <TableCell align="center"></TableCell>
+            <TableCell align="center"></TableCell>
+            <TableCell align="center"></TableCell>
+            <TableCell align="center">
+              <strong>Status</strong>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(({attribute, status}, idx) => (
+          {rows.map(({ attribute, status }, idx) => (
             <TableRow key={idx}>
-              <TableCell scope="row" align="center"> {attribute} </TableCell>
-              <TableCell align="center"> </TableCell>
-              <TableCell align="center"> </TableCell>
-              <TableCell align="center"> </TableCell>
-              <TableCell align="center"> {status} </TableCell>
+              <TableCell scope="row" align="center">
+                {attribute}
+              </TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center">{status}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -48,4 +54,4 @@ export default function BasicTable({rows = []}) {
 
 BasicTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.object)
-}
+};

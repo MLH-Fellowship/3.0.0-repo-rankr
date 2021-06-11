@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint 'pages/**/*' 'lib/**/*' 'apollo/**/*' --fix",
-    "format": "prettier --write 'styles/**/*.css' 'pages/**/*.js' 'lib/**/*.js' 'apollo/**/*.js' 'pages/**/*.jsx'",
+    "lint": "eslint 'pages/**/*' 'lib/**/*' 'apollo/**/*' 'components/**/*' --fix",
+    "format": "prettier --write 'styles/**/*.css' 'styles/**/*.jsx' 'pages/**/*.js' 'lib/**/*.js' 'components/**/*.jsx' 'apollo/**/*.js' 'pages/**/*.jsx'",
     "prepare": "husky install"
   },
   "dependencies": {
