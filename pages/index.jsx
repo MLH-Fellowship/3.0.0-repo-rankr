@@ -67,6 +67,22 @@ const styles = stylex.create({
     boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
   },
 
+  buttonSmall: {
+    color: '#fff',
+    backgroundColor: '#1D4ED8',
+    paddingTop: '0.25rem',
+    paddingBottom: '0.25rem',
+    paddingLeft: '0.35rem',
+    paddingRight: '0.35rem',
+    border: 'none',
+    fontWeight: 'bold',
+    borderRadius: '0.25rem',
+    fontSize: '0.95rem',
+    marginLeft: 15,
+    cursor: 'pointer',
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+  },
+
   input: {
     width: 350,
     paddingTop: '0.9rem',
@@ -91,6 +107,9 @@ const styles = stylex.create({
     alignItems: 'center'
   }
 });
+
+const hostURL =
+  process.env.node_env === 'production' ? `xyz` : 'http://localhost:3000/';
 
 function createData(good, bad) {
   return { good, bad };
@@ -156,8 +175,10 @@ export default function Home() {
                 {`Your repo scores `} <b>{`${score}`} </b>{' '}
               </div>
               <br />
-              <CopyToClipboard text={'text'}>
-                <button>Copy to clipboard with button</button>
+              <CopyToClipboard text={`${hostURL}api/${input}?badge=true`}>
+                <button
+                  className={stylex(styles.buttonSmall)}
+                >{`Copy svg url`}</button>
               </CopyToClipboard>
               <br />
               <Table rows={analysis} />
