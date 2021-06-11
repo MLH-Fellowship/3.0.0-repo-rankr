@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
 }
 
 MyApp.propTypes = {
-  Component: PropTypes.node,
+  Component: PropTypes.func, // React FC
   pageProps: PropTypes.object
 };
 

@@ -6,15 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint 'pages/**/*'",
-    "format": "prettier --write 'styles/**/*.css' 'pages/**/*.js' 'pages/**/*.jsx'",
+    "lint": "eslint 'pages/**/*' 'lib/**/*' 'apollo/**/*' --fix",
+    "format": "prettier --write 'styles/**/*.css' 'pages/**/*.js' 'lib/**/*.js' 'apollo/**/*.js' 'pages/**/*.jsx'",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.20",
     "@ladifire-opensource/stylex": "^0.1.0-beta.0",
     "@ladifire-opensource/stylex-nextjs-plugin": "^0.1.0-beta.0",
     "badge-maker": "^3.3.1",
+    "cross-fetch": "^3.1.4",
+    "graphql": "^15.5.0",
     "next": "9.3.5",
+    "object-key-filter": "^0.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
@@ -23,6 +27,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-unused-imports": "^1.1.1",
     "husky": "^6.0.0",
     "next-transpile-modules": "3.3.0",
     "prettier": "^2.3.1"
