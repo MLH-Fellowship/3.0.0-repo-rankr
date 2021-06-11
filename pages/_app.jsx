@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 import PropTypes from 'prop-types';
-
+import 'antd/dist/antd.css';
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }

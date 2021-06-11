@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import stylex from '@ladifire-opensource/stylex';
 import { useState } from 'react';
+import axios from 'axios';
 
 const styles = stylex.create({
   container: {
@@ -81,14 +82,15 @@ const styles = stylex.create({
 export default function Home() {
   const [input, setInput] = useState('');
 
-  const handleRepoRank = () => {
+  const handleRepoRank = async () => {
     if (!!input.trim()) {
-      fetch(`/api/${input}`)
-        .then(async res => {
-          const data = await res.json();
-          console.log(data);
-        })
-        .catch(console.error.bind(this));
+      try {
+        let repo = input.s;
+        const data = await axios.get(`/api/${input}`);
+        console.log(data.data);
+      } catch (error) {
+        console.error.bind(this);
+      }
     }
   };
 
