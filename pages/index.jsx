@@ -2,19 +2,79 @@ import Head from 'next/head';
 import stylex from '@ladifire-opensource/stylex';
 import { useState } from 'react';
 import axios from 'axios';
-import Table from '../components/table';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Analysis from '../components/analysis';
 import { toast, ToastContainer } from 'react-toastify';
-import indexStyle from '../styles/index.style';
+import BeatLoader from 'react-spinners/BeatLoader';
 
-const styles = indexStyle();
+const styles = stylex.create({
+  container: {
+    color: '#fff',
+    minHeight: '100vh',
+    paddingTop: '5rem',
+    background: 'url(/images/patternpad.jpeg)',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover'
+  },
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  analysis: {
+    width: '100%',
+    marginTop: '3rem'
+  },
+  title: {
+    color: '#fff',
+    fontSize: '5rem',
+    margin: 30
+  },
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '5rem'
+  },
+  button: {
+    color: '#fff',
+    backgroundColor: '#1D4ED8',
+    paddingTop: '0.75rem',
+    paddingBottom: '0.75rem',
+    paddingLeft: '1.5rem',
+    paddingRight: '1.5rem',
+    border: 'none',
+    fontWeight: 'bold',
+    borderRadius: '0.25rem',
+    fontSize: '1.25rem',
+    marginLeft: 15,
+    cursor: 'pointer',
+    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+  },
+  input: {
+    width: 350,
+    paddingTop: '0.9rem',
+    paddingBottom: '0.9rem',
+    paddingLeft: '0.5rem',
+    paddingRight: '0.5rem',
+    border: 'none',
+    borderRadius: '0.25rem',
+    fontSize: '1rem',
+    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    display: 'flex',
+    marginBottom: '2rem',
+    justifyContent: 'center'
+  }
+});
 
 export default function Home() {
   const [input, setInput] = useState('facebook/jest');
   const [loading, setLoading] = useState(false);
-  const [analysisLoaded, setAnalysisLoading] = useState(false);
   const [score, setScore] = useState(20);
-  const [analysis, setAnalysis] = useState({});
+  const [analysis, setAnalysis] = useState(null);
 
   const handleCopySVGLink = () => {
     toast.success('Badge URL Copied!', {
@@ -22,29 +82,19 @@ export default function Home() {
     });
   };
 
-  const filterInfo = info => {
-    const result = {};
-    Object.entries(info).forEach(([attribute, value]) => {
-      if (typeof value === 'boolean') {
-        result[attribute] = value;
-      }
-    });
-    return result;
-  };
+  const filterInfo = info =>
+    Object.entries(info).filter(([_, v]) => typeof v === 'boolean');
 
   const handleRepoRank = async () => {
     if (!!input.trim()) {
       try {
         setLoading(true);
         const {
-          data: { info, score }
+          data: { score, info }
         } = await axios.get(`/api/${input}`);
-        const result = filterInfo(info);
-        setScore(score);
-        setAnalysis(info);
-        setAnalysisLoading(true);
-      } catch (error) {
-        console.error.bind(this);
+        setAnalysis({ score, info: filterInfo(info) });
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -62,7 +112,7 @@ export default function Home() {
 
       <main className={stylex(styles.main)}>
         <h1 className={stylex(styles.title)}>Repo Rankr</h1>
-        <div className={stylex(styles.wrapper)}>
+        <div>
           <input
             className={stylex(styles.input)}
             value={input}
@@ -77,37 +127,17 @@ export default function Home() {
             Analyze
           </button>
         </div>
-
-        <div className={stylex(styles.analysis)}>
-          {analysisLoaded ? (
-            <>
-              <div>
-                Your repo scores <strong>{score}</strong>
-              </div>
-              <br />
-              <CopyToClipboard
-                text={`${window.location.href}api/${input}?badge=true`}
-              >
-                <button
-                  onClick={handleCopySVGLink.bind(this)}
-                  className={stylex(styles.buttonSmall)}
-                >
-                  Copy Badge
-                </button>
-              </CopyToClipboard>
-              <br />
-              <Table rows={analysis} />
-            </>
+        <div className={stylex(styles.analysis, loading ? styles.loading : '')}>
+          {loading ? (
+            <BeatLoader loading size={20} color="#ffffff" />
           ) : (
-            loading && <div> Loading... </div>
+            !!analysis && <Analysis {...analysis} repo={input} />
           )}
         </div>
       </main>
 
       <footer className={stylex(styles.footer)}>
-        <span className={stylex(styles.footerContent)}>
-          Built with Stylex and ❤️
-        </span>
+        <span>Built with Stylex and ❤️</span>
       </footer>
     </div>
   );
