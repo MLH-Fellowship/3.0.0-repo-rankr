@@ -14,29 +14,34 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [analysisLoaded, setAnalysisLoading] = useState(false);
   const [score, setScore] = useState(20);
-  const [analysis, setAnalysis] = useState([]);
+  const [analysis, setAnalysis] = useState({});
 
-  const handleCopySVGlink = () => {
+  const handleCopySVGLink = () => {
     toast.success('Badge URL Copied!', {
       position: 'bottom-left'
     });
+  };
+
+  const filterInfo = info => {
+    const result = {};
+    Object.entries(info).forEach(([attribute, value]) => {
+      if (typeof value === 'boolean') {
+        result[attribute] = value;
+      }
+    });
+    return result;
   };
 
   const handleRepoRank = async () => {
     if (!!input.trim()) {
       try {
         setLoading(true);
-        const data = await axios.get(`/api/${input}`);
-        const { info, score } = data.data;
-        const result = Object.keys(info)
-          .filter(key => 'boolean' === typeof info[key])
-          .map(key => ({
-            attribute: key,
-            status: info[key] ? 'PASS' : 'FAIL'
-          }));
-
+        const {
+          data: { info, score }
+        } = await axios.get(`/api/${input}`);
+        const result = filterInfo(info);
         setScore(score);
-        setAnalysis(result);
+        setAnalysis(info);
         setAnalysisLoading(true);
       } catch (error) {
         console.error.bind(this);
@@ -77,14 +82,14 @@ export default function Home() {
           {analysisLoaded ? (
             <>
               <div>
-                Your repo scores <strong>{`${score}`}</strong>
+                Your repo scores <strong>{score}</strong>
               </div>
               <br />
               <CopyToClipboard
                 text={`${window.location.href}api/${input}?badge=true`}
               >
                 <button
-                  onClick={handleCopySVGlink.bind(this)}
+                  onClick={handleCopySVGLink.bind(this)}
                   className={stylex(styles.buttonSmall)}
                 >
                   Copy Badge

@@ -35,15 +35,15 @@ export default function BasicTable({ rows = [] }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(({ attribute, status }, idx) => (
-            <TableRow key={idx}>
+          {Object.entries(rows).map(([attribute, status]) => (
+            <TableRow key={attribute}>
               <TableCell scope="row" align="center">
                 {attribute}
               </TableCell>
               <TableCell align="center"></TableCell>
               <TableCell align="center"></TableCell>
               <TableCell align="center"></TableCell>
-              <TableCell align="center">{status}</TableCell>
+              <TableCell align="center">{status ? 'PASS' : 'FAIL'}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -53,5 +53,5 @@ export default function BasicTable({ rows = [] }) {
 }
 
 BasicTable.propTypes = {
-  rows: PropTypes.arrayOf(PropTypes.object)
+  rows: PropTypes.object
 };
