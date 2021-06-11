@@ -3,11 +3,12 @@ import {
   generateSvg,
   getRepository,
   parseRepositoryData,
-  rankRepository
+  rankRepository,
+  evaluateModel
 } from '../../../lib/';
 
 export default async (req, res) => {
-  const { owner, name, badge } = req.query;
+  const { owner, name, badge, info } = req.query;
 
   const data = await getRepository(owner, name);
 
@@ -20,6 +21,9 @@ export default async (req, res) => {
     res.write(svg);
     res.end();
   } else {
+    if (info) {
+      req.status(200).json(evaluateModel(model));
+    }
     res.status(200).json(score);
   }
 };
