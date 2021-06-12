@@ -13,8 +13,12 @@ const styles = stylex.create({
     borderRadius: '10px',
     cursor: 'pointer',
     position: 'relative',
+    transition: 'all 250ms ease',
     ':hover img': {
       filter: 'opacity(0.75)' // for lighter gray
+    },
+    ':hover': {
+      boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
     }
   },
   icon: {
