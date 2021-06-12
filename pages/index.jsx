@@ -90,7 +90,7 @@ const styles = stylex.create({
 });
 
 export default function Home() {
-  const [input, setInput] = useState('facebook/jest'); // TODO: remove
+  const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [score, setScore] = useState(20);
   const [analysis, setAnalysis] = useState(null);
@@ -149,7 +149,9 @@ export default function Home() {
         </div>
         {!!input.trim() && !loading && !!analysis && (
           <CopyableLink
-            href={`${window.location.origin}/api/${input.trim()}?badge=true`}
+            href={`![badge](${
+              window.location.origin
+            }/api/${input.trim()}?badge=true)`}
           />
         )}
         <div className={stylex(styles.analysis, loading ? styles.loading : '')}>
