@@ -176,7 +176,9 @@ export default function Home() {
           {loading ? (
             <BeatLoader loading size={20} color="#000000" />
           ) : (
-            !!analysis && <Analysis {...analysis} repo={input} />
+            !!analysis && (
+              <Analysis {...analysis} repo={cleanInput(input.trim())} />
+            )
           )}
         </div>
         <div className={stylex(styles.spacer)}></div>
