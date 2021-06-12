@@ -17,8 +17,10 @@ module.exports = {
     }
   },
   extends: ['plugin:react/recommended', 'prettier'],
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', 'unused-imports'],
   rules: {
-    "react/react-in-jsx-scope": "off",  // for Next.js
+    'react/react-in-jsx-scope': 'off', // for Next.js
+    'unused-imports/no-unused-imports': 2,
+    'no-var': 1,
   }
 };
