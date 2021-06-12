@@ -13,7 +13,6 @@ export default async (req, res) => {
   const data = await getRepository(owner, name);
 
   const model = parseRepositoryData(data);
-  console.log(model);
   const score = rankRepository(model);
   const svg = generateSvg(score);
 
