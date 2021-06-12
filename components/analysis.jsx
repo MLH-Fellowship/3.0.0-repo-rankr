@@ -53,7 +53,7 @@ const Analysis = ({ repo, score, info }) => {
   return (
     <div className={stylex(styles.container)}>
       <h1 className={stylex(styles.scoreHeader)}>
-        Score: <strong>{score}</strong>
+        Grade: <strong>{score}</strong>
       </h1>
       <div className={stylex(styles.tableRow, styles.tableLabel)}>
         <div className={stylex(styles.tableColumn)}>REQUIREMENTS</div>
