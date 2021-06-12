@@ -33,7 +33,7 @@ const styles = stylex.create({
 
 const CopyableLink = ({ href }) => {
   const handleCopySVGLink = () => {
-    toast.success('Badge URL Copied!', {
+    toast.success('Markdown Badge Copied!', {
       position: 'bottom-left'
     });
   };
