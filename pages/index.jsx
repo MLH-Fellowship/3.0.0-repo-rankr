@@ -89,6 +89,18 @@ const styles = stylex.create({
   }
 });
 
+const cleanInput = inputStr => {
+  let inp = inputStr;
+  const ghRe = new RegExp('github.com/(.+)/(.+)/');
+  // Need this for regex to work
+  if (!inputStr.endsWith('/')) inp += '/';
+
+  const matches = inp.match(ghRe);
+  if (inp.match(ghRe) && matches.length >= 3)
+    return `${matches[1]}/${matches[2]}`;
+  return inputStr;
+};
+
 export default function Home() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -100,11 +112,12 @@ export default function Home() {
 
   const handleRepoRank = async () => {
     if (!!input.trim()) {
+      const repoIdentifier = cleanInput(input.trim());
       try {
         setLoading(true);
         const {
           data: { score, info }
-        } = await axios.get(`/api/${input}`);
+        } = await axios.get(`/api/${repoIdentifier}`);
         setAnalysis({ score, info: filterInfo(info) });
       } catch (err) {
         toast.error(err.message, {
@@ -154,9 +167,9 @@ export default function Home() {
         </div>
         {!!input.trim() && !loading && !!analysis && (
           <CopyableLink
-            href={`![badge](${
-              window.location.origin
-            }/api/${input.trim()}?badge=true)`}
+            href={`![badge](${window.location.origin}/api/${cleanInput(
+              input.trim()
+            )}?badge=true)`}
           />
         )}
         <div className={stylex(styles.analysis, loading ? styles.loading : '')}>
