@@ -53,7 +53,7 @@ const Analysis = ({ repo, score, info }) => {
   return (
     <div className={stylex(styles.container)}>
       <h1 className={stylex(styles.scoreHeader)}>
-        Score: <strong>{score}</strong>
+        Grade: <strong>{score}</strong>
       </h1>
       <img src={`${window.location.origin}/api/${repo}?badge=true`} alt="" />
       <div className={stylex(styles.tableRow, styles.tableLabel)}>
