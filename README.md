@@ -6,7 +6,7 @@ When we started the fellowship, we knew we were going to work on amazing open so
 
 > How **Open Source Friendly** is this repo *really?*
 
-We can always turn to majors repos like React, Vue, Flask, etc. But these don't paint a picture on what less popular *yet still quite active* open source projects look like (from a codebase perspective). **This idea clicked even further** when we were going through the quite frankly simple yet effective LMS Platform for the first week, which consisted of *literally*, what makes a repo **_a good open source repo/project**. 
+We can always turn to majors repos like React, Vue, Flask, etc. But these don't paint a picture on what less popular *yet still quite active* open source projects look like (from a codebase perspective). **This idea clicked even further** when we were going through the quite frankly simple yet effective LMS Platform for the first week, which consisted of *literally*, what makes a repo **_a good open source repo/project_**. 
 
 So putting two and two together, **RepoRankr** was born!
 
