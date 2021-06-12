@@ -55,6 +55,7 @@ const Analysis = ({ repo, score, info }) => {
       <h1 className={stylex(styles.scoreHeader)}>
         Score: <strong>{score}</strong>
       </h1>
+      <img src={`${window.location.origin}/api/${repo}?badge=true`} alt="" />
       <div className={stylex(styles.tableRow, styles.tableLabel)}>
         <div className={stylex(styles.tableColumn)}>REQUIREMENTS</div>
         <div className={stylex(styles.tableColumn)}>STATUS</div>
