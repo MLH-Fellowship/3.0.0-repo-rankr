@@ -10,7 +10,7 @@ const styles = stylex.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     padding: '3rem',
-    borderRadius: '0.25rem',
+    borderRadius: '10px',
     boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
   },
   scoreHeader: {
@@ -39,7 +39,7 @@ const styles = stylex.create({
     color: 'white',
     fontWeight: '900',
     padding: '0.25rem',
-    borderRadius: '0.25rem'
+    borderRadius: '2px'
   }
 });
 

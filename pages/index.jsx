@@ -3,7 +3,8 @@ import stylex from '@ladifire-opensource/stylex';
 import { useState } from 'react';
 import axios from 'axios';
 import Analysis from '../components/analysis';
-import { toast, ToastContainer } from 'react-toastify';
+import CopyableLink from '../components/copyableLink';
+import { ToastContainer } from 'react-toastify';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 const styles = stylex.create({
@@ -18,7 +19,7 @@ const styles = stylex.create({
   },
   analysis: {
     width: '100%',
-    marginTop: '5rem'
+    marginTop: '3rem'
   },
   title: {
     fontSize: '4rem',
@@ -26,8 +27,7 @@ const styles = stylex.create({
   },
   loading: {
     display: 'flex',
-    justifyContent: 'center',
-    marginTop: '7rem'
+    justifyContent: 'center'
   },
   inputContainer: {
     width: '100%',
@@ -35,7 +35,9 @@ const styles = stylex.create({
     boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
     padding: '1rem',
     display: 'grid',
-    gridTemplateColumns: 'auto 10rem'
+    gridTemplateColumns: 'auto 10rem',
+    borderRadius: '10px',
+    marginBottom: '5rem'
   },
   button: {
     color: '#fff',
@@ -50,7 +52,12 @@ const styles = stylex.create({
     letterSpacing: '2px',
     fontSize: '0.875rem',
     marginLeft: 15,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    transition: 'filter 500ms ease'
+  },
+  buttonDisabled: {
+    cursor: 'not-allowed',
+    filter: 'grayscale(1)'
   },
   input: {
     width: '100%',
@@ -79,16 +86,10 @@ const styles = stylex.create({
 });
 
 export default function Home() {
-  const [input, setInput] = useState('facebook/jest');
+  const [input, setInput] = useState('facebook/jest'); // TODO: remove
   const [loading, setLoading] = useState(false);
   const [score, setScore] = useState(20);
   const [analysis, setAnalysis] = useState(null);
-
-  const handleCopySVGLink = () => {
-    toast.success('Badge URL Copied!', {
-      position: 'bottom-left'
-    });
-  };
 
   const filterInfo = info =>
     Object.entries(info).filter(([_, v]) => typeof v === 'boolean');
@@ -124,17 +125,29 @@ export default function Home() {
           <input
             className={stylex(styles.input)}
             value={input}
-            onChange={e => setInput(e.target?.value)}
+            onChange={e => {
+              setScore(0);
+              setAnalysis(null);
+              setInput(e.target?.value);
+            }}
             placeholder="ladifire-opensource/stylex"
           />
           <button
             onClick={handleRepoRank.bind(this)}
-            className={stylex(styles.button)}
+            className={stylex(
+              styles.button,
+              !input.trim() ? styles.buttonDisabled : ''
+            )}
             disabled={loading}
           >
             ANALYZE
           </button>
         </div>
+        {!!input.trim() && !loading && !!analysis && (
+          <CopyableLink
+            href={`${window.location.origin}/api/${input.trim()}?badge=true`}
+          />
+        )}
         <div className={stylex(styles.analysis, loading ? styles.loading : '')}>
           {loading ? (
             <BeatLoader loading size={20} color="#000000" />
