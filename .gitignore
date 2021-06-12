@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# cool kids use yarn
+package.lock.json 
