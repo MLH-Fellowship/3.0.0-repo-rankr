@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-const token = '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';
+const token = process.env.GITHUB_API_TOKEN;
 
 export const AUTH_HEADER = {
   authorization: token ? `Bearer ${token}` : null
