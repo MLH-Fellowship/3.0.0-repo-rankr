@@ -117,14 +117,14 @@ export default function Home() {
   return (
     <div className={stylex(styles.container)}>
       <Head>
-        <title>Repo Rankr</title>
+        <title>RepoRankr</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <ToastContainer />
 
       <main className={stylex(styles.main)}>
-        <h1 className={stylex(styles.title)}>Repo Rankr</h1>
+        <h1 className={stylex(styles.title)}>RepoRankr</h1>
         <div className={stylex(styles.inputContainer)}>
           <input
             className={stylex(styles.input)}
