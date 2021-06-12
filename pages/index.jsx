@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Analysis from '../components/analysis';
 import CopyableLink from '../components/copyableLink';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 const styles = stylex.create({
@@ -107,7 +107,9 @@ export default function Home() {
         } = await axios.get(`/api/${input}`);
         setAnalysis({ score, info: filterInfo(info) });
       } catch (err) {
-        console.error(err);
+        toast.error(err.message, {
+          position: 'bottom-left'
+        });
       } finally {
         setLoading(false);
       }
