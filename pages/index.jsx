@@ -2,55 +2,43 @@ import Head from 'next/head';
 import stylex from '@ladifire-opensource/stylex';
 import { useState } from 'react';
 import axios from 'axios';
-import Table from '../components/table';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Analysis from '../components/analysis';
+import CopyableLink from '../components/copyableLink';
+import { ToastContainer } from 'react-toastify';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const styles = stylex.create({
   container: {
-    color: '#fff',
     minHeight: '100vh',
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    background: 'url(/images/patternpad.jpeg)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover'
+    paddingTop: '5rem'
   },
   main: {
-    paddingTop: '5rem',
-    paddingBottom: '5rem',
-    paddingLeft: 0,
-    paddingRight: 0,
-    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
   analysis: {
-    paddingTop: '3rem',
-    paddingBottom: '0.2rem',
-    paddingLeft: 0,
-    paddingRight: 0,
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
+    width: '100%',
+    marginTop: '3rem'
   },
   title: {
-    color: '#fff',
-    fontSize: '5rem',
+    fontSize: '4rem',
     margin: 30
   },
-  wrapper: {
+  loading: {
     display: 'flex',
-    alignItems: 'center'
+    justifyContent: 'center'
   },
-
+  inputContainer: {
+    width: '100%',
+    maxWidth: '40rem',
+    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+    padding: '1rem',
+    display: 'grid',
+    gridTemplateColumns: 'auto 10rem',
+    borderRadius: '10px',
+    marginBottom: '5rem'
+  },
   button: {
     color: '#fff',
     backgroundColor: '#1D4ED8',
@@ -59,88 +47,63 @@ const styles = stylex.create({
     paddingLeft: '1.5rem',
     paddingRight: '1.5rem',
     border: 'none',
-    fontWeight: 'bold',
-    borderRadius: '0.25rem',
-    fontSize: '1.25rem',
+    borderRadius: '5px',
+    fontWeight: '700',
+    letterSpacing: '2px',
+    fontSize: '0.875rem',
     marginLeft: 15,
     cursor: 'pointer',
-    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+    transition: 'filter 500ms ease'
   },
-
-  buttonSmall: {
-    color: '#fff',
-    backgroundColor: '#1D4ED8',
-    paddingTop: '0.25rem',
-    paddingBottom: '0.25rem',
-    paddingLeft: '0.35rem',
-    paddingRight: '0.35rem',
-    border: 'none',
-    fontWeight: 'bold',
-    borderRadius: '0.25rem',
-    fontSize: '0.95rem',
-    marginLeft: 15,
-    cursor: 'pointer',
-    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+  buttonDisabled: {
+    cursor: 'not-allowed',
+    filter: 'grayscale(1)'
   },
-
   input: {
-    width: 350,
+    width: '100%',
     paddingTop: '0.9rem',
     paddingBottom: '0.9rem',
     paddingLeft: '0.5rem',
     paddingRight: '0.5rem',
     border: 'none',
-    borderRadius: '0.25rem',
+    borderRadius: '5px',
     fontSize: '1rem',
-    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
+    fontFamily: 'inherit',
+    ':focus-visible': {
+      outline: 'none'
+    }
   },
-
   footer: {
+    position: 'absolute',
+    bottom: 0,
     width: '100%',
-    height: 100,
     display: 'flex',
+    marginBottom: '2rem',
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  footerContent: {
-    display: 'flex',
-    alignItems: 'center'
+    letterSpacing: '2px',
+    fontWeight: '300'
   }
 });
 
-const hostURL =
-  process.env.node_env === 'production' ? `xyz` : 'http://localhost:3000/';
-
-function createData(good, bad) {
-  return { good, bad };
-}
-
 export default function Home() {
-  const [input, setInput] = useState('facebook/jest');
+  const [input, setInput] = useState('facebook/jest'); // TODO: remove
   const [loading, setLoading] = useState(false);
-  const [analysisLoaded, setAnalysisLoading] = useState(false);
   const [score, setScore] = useState(20);
-  const [analysis, setAnalysis] = useState([]);
+  const [analysis, setAnalysis] = useState(null);
+
+  const filterInfo = info =>
+    Object.entries(info).filter(([_, v]) => typeof v === 'boolean');
 
   const handleRepoRank = async () => {
     if (!!input.trim()) {
       try {
         setLoading(true);
-        const data = await axios.get(`/api/${input}`);
-        console.log('data.data', data);
-        const { info, score } = data.data;
-
-        const result = Object.keys(info)
-          .filter(key => {
-            return 'boolean' === typeof info[key];
-          })
-          .map(key => createData(key, info[key] ? 'PASS' : 'FAIL'));
-
-        setScore(score);
-        setAnalysis(result);
-        setAnalysisLoading(true);
-      } catch (error) {
-        console.error.bind(this);
+        const {
+          data: { score, info }
+        } = await axios.get(`/api/${input}`);
+        setAnalysis({ score, info: filterInfo(info) });
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -154,50 +117,48 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <ToastContainer />
+
       <main className={stylex(styles.main)}>
         <h1 className={stylex(styles.title)}>Repo Rankr</h1>
-        <div className={stylex(styles.wrapper)}>
+        <div className={stylex(styles.inputContainer)}>
           <input
             className={stylex(styles.input)}
             value={input}
-            onChange={e => setInput(e.target?.value)}
+            onChange={e => {
+              setScore(0);
+              setAnalysis(null);
+              setInput(e.target?.value);
+            }}
             placeholder="ladifire-opensource/stylex"
           />
           <button
             onClick={handleRepoRank.bind(this)}
-            className={stylex(styles.button)}
+            className={stylex(
+              styles.button,
+              !input.trim() ? styles.buttonDisabled : ''
+            )}
             disabled={loading}
           >
-            Analyze
+            ANALYZE
           </button>
         </div>
-
-        {/* <br/> */}
-        <div className={stylex(styles.analysis)}>
-          {analysisLoaded ? (
-            <>
-              <div>
-                {`Your repo scores `} <b>{`${score}`} </b>{' '}
-              </div>
-              <br />
-              <CopyToClipboard text={`${hostURL}api/${input}?badge=true`}>
-                <button
-                  className={stylex(styles.buttonSmall)}
-                >{`Copy svg url`}</button>
-              </CopyToClipboard>
-              <br />
-              <Table rows={analysis} />
-            </>
+        {!!input.trim() && !loading && !!analysis && (
+          <CopyableLink
+            href={`${window.location.origin}/api/${input.trim()}?badge=true`}
+          />
+        )}
+        <div className={stylex(styles.analysis, loading ? styles.loading : '')}>
+          {loading ? (
+            <BeatLoader loading size={20} color="#000000" />
           ) : (
-            loading && <div> Loading... </div>
+            !!analysis && <Analysis {...analysis} repo={input} />
           )}
         </div>
       </main>
 
       <footer className={stylex(styles.footer)}>
-        <span className={stylex(styles.footerContent)}>
-          This site is built with Stylex and ❤️
-        </span>
+        <span>BUILT WITH STYLEX AND ❤️</span>
       </footer>
     </div>
   );
