@@ -9,6 +9,7 @@ import BeatLoader from 'react-spinners/BeatLoader';
 
 const styles = stylex.create({
   container: {
+    position: 'relative',
     minHeight: '100vh',
     paddingTop: '5rem'
   },
@@ -82,6 +83,9 @@ const styles = stylex.create({
     justifyContent: 'center',
     letterSpacing: '2px',
     fontWeight: '300'
+  },
+  spacer: {
+    marginBottom: '10rem'
   }
 });
 
@@ -155,6 +159,7 @@ export default function Home() {
             !!analysis && <Analysis {...analysis} repo={input} />
           )}
         </div>
+        <div className={stylex(styles.spacer)}></div>
       </main>
 
       <footer className={stylex(styles.footer)}>
