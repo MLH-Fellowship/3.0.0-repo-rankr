@@ -8,12 +8,8 @@ import BeatLoader from 'react-spinners/BeatLoader';
 
 const styles = stylex.create({
   container: {
-    color: '#fff',
     minHeight: '100vh',
-    paddingTop: '5rem',
-    background: 'url(/images/patternpad.jpeg)',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover'
+    paddingTop: '5rem'
   },
   main: {
     display: 'flex',
@@ -22,17 +18,24 @@ const styles = stylex.create({
   },
   analysis: {
     width: '100%',
-    marginTop: '3rem'
+    marginTop: '5rem'
   },
   title: {
-    color: '#fff',
-    fontSize: '5rem',
+    fontSize: '4rem',
     margin: 30
   },
   loading: {
     display: 'flex',
     justifyContent: 'center',
-    marginTop: '5rem'
+    marginTop: '7rem'
+  },
+  inputContainer: {
+    width: '100%',
+    maxWidth: '40rem',
+    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+    padding: '1rem',
+    display: 'grid',
+    gridTemplateColumns: 'auto 10rem'
   },
   button: {
     color: '#fff',
@@ -42,23 +45,26 @@ const styles = stylex.create({
     paddingLeft: '1.5rem',
     paddingRight: '1.5rem',
     border: 'none',
-    fontWeight: 'bold',
-    borderRadius: '0.25rem',
-    fontSize: '1.25rem',
+    borderRadius: '5px',
+    fontWeight: '700',
+    letterSpacing: '2px',
+    fontSize: '0.875rem',
     marginLeft: 15,
-    cursor: 'pointer',
-    boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
+    cursor: 'pointer'
   },
   input: {
-    width: 350,
+    width: '100%',
     paddingTop: '0.9rem',
     paddingBottom: '0.9rem',
     paddingLeft: '0.5rem',
     paddingRight: '0.5rem',
     border: 'none',
-    borderRadius: '0.25rem',
+    borderRadius: '5px',
     fontSize: '1rem',
-    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
+    fontFamily: 'inherit',
+    ':focus-visible': {
+      outline: 'none'
+    }
   },
   footer: {
     position: 'absolute',
@@ -66,7 +72,9 @@ const styles = stylex.create({
     width: '100%',
     display: 'flex',
     marginBottom: '2rem',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    letterSpacing: '2px',
+    fontWeight: '300'
   }
 });
 
@@ -112,7 +120,7 @@ export default function Home() {
 
       <main className={stylex(styles.main)}>
         <h1 className={stylex(styles.title)}>Repo Rankr</h1>
-        <div>
+        <div className={stylex(styles.inputContainer)}>
           <input
             className={stylex(styles.input)}
             value={input}
@@ -124,12 +132,12 @@ export default function Home() {
             className={stylex(styles.button)}
             disabled={loading}
           >
-            Analyze
+            ANALYZE
           </button>
         </div>
         <div className={stylex(styles.analysis, loading ? styles.loading : '')}>
           {loading ? (
-            <BeatLoader loading size={20} color="#ffffff" />
+            <BeatLoader loading size={20} color="#000000" />
           ) : (
             !!analysis && <Analysis {...analysis} repo={input} />
           )}
@@ -137,7 +145,7 @@ export default function Home() {
       </main>
 
       <footer className={stylex(styles.footer)}>
-        <span>Built with Stylex and ❤️</span>
+        <span>BUILT WITH STYLEX AND ❤️</span>
       </footer>
     </div>
   );

@@ -10,7 +10,8 @@ const styles = stylex.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     padding: '3rem',
-    borderRadius: '0.25rem'
+    borderRadius: '0.25rem',
+    boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px'
   },
   scoreHeader: {
     fontWeight: 'normal',
@@ -22,11 +23,11 @@ const styles = stylex.create({
     maxWidth: '25rem',
     display: 'grid',
     gridTemplateColumns: 'auto 5rem',
-    marginTop: '0.75rem'
+    marginTop: '1rem'
   },
   tableLabel: {
     fontSize: '1.125rem',
-    marginBottom: '1rem',
+    marginBottom: '1.25rem',
     fontWeight: 'bold'
   },
   statusPass: {
