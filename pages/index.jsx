@@ -129,6 +129,9 @@ export default function Home() {
           <input
             className={stylex(styles.input)}
             value={input}
+            onKeyPress={({ key }) =>
+              key === 'Enter' && !analysis && handleRepoRank()
+            }
             onChange={e => {
               setScore(0);
               setAnalysis(null);
