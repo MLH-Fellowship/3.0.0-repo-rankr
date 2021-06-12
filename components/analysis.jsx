@@ -79,7 +79,7 @@ const Analysis = ({ repo, score, info }) => {
 };
 
 Analysis.propTypes = {
-  score: PropTypes.number,
+  score: PropTypes.string,
   repo: PropTypes.string,
   info: PropTypes.arrayOf(PropTypes.array)
 };
